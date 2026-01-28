@@ -1,0 +1,1616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DonutSMP Market - #1 Official Marketplace</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --bg-primary: #0a0e1a;
+            --bg-secondary: #0f1419;
+            --bg-card: #141b2b;
+            --accent-blue: #1e40af;
+            --accent-blue-light: #2563eb;
+            --accent-glow: #3b82f6;
+            --price-green: #22c55e;
+            --price-green-dark: #16a34a;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border: #1e293b;
+            --success: #22c55e;
+            --warning: #f59e0b;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Epic Animated Background */
+        .animated-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        
+        .bg-gradient {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at top, rgba(30, 64, 175, 0.15), transparent 60%),
+                        radial-gradient(ellipse at bottom, rgba(59, 130, 246, 0.1), transparent 60%);
+            animation: gradientShift 20s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.1); }
+        }
+        
+        .bg-grid {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 30s linear infinite;
+        }
+        
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+        
+        .bg-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.4;
+            animation: floatOrb 25s infinite ease-in-out;
+        }
+        
+        .bg-orb:nth-child(1) {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.4), transparent);
+            top: 10%;
+            left: -10%;
+            animation-delay: 0s;
+        }
+        
+        .bg-orb:nth-child(2) {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.3), transparent);
+            bottom: -20%;
+            right: -10%;
+            animation-delay: 7s;
+        }
+        
+        .bg-orb:nth-child(3) {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(34, 197, 94, 0.2), transparent);
+            top: 50%;
+            right: 30%;
+            animation-delay: 14s;
+        }
+        
+        @keyframes floatOrb {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(100px, -100px) scale(1.1); }
+            50% { transform: translate(-50px, 50px) scale(0.9); }
+            75% { transform: translate(80px, 80px) scale(1.05); }
+        }
+        
+        /* Scroll Animations */
+        .scroll-fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .scroll-fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Glow Effects */
+        .glow {
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3),
+                        0 0 40px rgba(59, 130, 246, 0.2),
+                        0 0 60px rgba(59, 130, 246, 0.1);
+        }
+        
+        .glow-text {
+            text-shadow: 0 0 20px rgba(59, 130, 246, 0.5),
+                         0 0 40px rgba(59, 130, 246, 0.3);
+        }
+        
+        .glow-green {
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.4),
+                        0 0 40px rgba(34, 197, 94, 0.2);
+        }
+        
+        /* Header */
+        header {
+            background: rgba(10, 14, 26, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--accent-glow), var(--price-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .logo:hover {
+            filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.5));
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-glow);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: var(--text-primary);
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 6rem 2rem;
+            position: relative;
+            margin-bottom: 5rem;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.1), transparent 70%);
+            filter: blur(80px);
+            z-index: -1;
+        }
+        
+        .badge-container {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .badge {
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.3), rgba(37, 99, 235, 0.2));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            color: white;
+            padding: 0.75rem 1.75rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(59, 130, 246, 0.5); }
+        }
+        
+        .badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.6);
+        }
+        
+        .badge-safe {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.3), rgba(34, 197, 94, 0.2));
+            border-color: rgba(34, 197, 94, 0.3);
+            animation: pulse-glow-green 3s ease-in-out infinite;
+        }
+        
+        @keyframes pulse-glow-green {
+            0%, 100% { box-shadow: 0 0 20px rgba(34, 197, 94, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(34, 197, 94, 0.5); }
+        }
+        
+        .hero h1 {
+            font-size: 4.5rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-glow), var(--price-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 80px rgba(59, 130, 246, 0.3);
+            animation: title-glow 5s ease-in-out infinite;
+        }
+        
+        @keyframes title-glow {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.3)); }
+            50% { filter: drop-shadow(0 0 40px rgba(59, 130, 246, 0.6)); }
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+        
+        /* Stats Section */
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, rgba(20, 27, 43, 0.8), rgba(15, 20, 25, 0.6));
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .stat-card:hover::before {
+            opacity: 1;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-glow);
+            box-shadow: 0 20px 60px rgba(59, 130, 246, 0.2);
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 900;
+            font-family: 'JetBrains Mono', monospace;
+            background: linear-gradient(135deg, var(--accent-glow), var(--price-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        /* How It Works */
+        .how-it-works {
+            margin: 5rem 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-glow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+        
+        .step-card {
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+        }
+        
+        .step-number {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-glow));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 900;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 10px 40px rgba(59, 130, 246, 0.4);
+            transition: all 0.3s;
+        }
+        
+        .step-card:hover .step-number {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 15px 60px rgba(59, 130, 246, 0.6);
+        }
+        
+        .step-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .step-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+        
+        .step-description {
+            color: var(--text-secondary);
+        }
+        
+        /* Buttons */
+        .cta-btn {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-glow));
+            color: white;
+            border: none;
+            padding: 1.25rem 3rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+        }
+        
+        .cta-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .cta-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 50px rgba(59, 130, 246, 0.5);
+        }
+        
+        .cta-btn-secondary {
+            background: rgba(30, 64, 175, 0.2);
+            border: 2px solid var(--accent-glow);
+            backdrop-filter: blur(10px);
+        }
+        
+        /* Product Cards */
+        .product-card {
+            background: linear-gradient(135deg, rgba(20, 27, 43, 0.6), rgba(15, 20, 25, 0.4));
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s;
+            position: relative;
+        }
+        
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+        
+        .product-card:hover::before {
+            opacity: 1;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-15px);
+            border-color: var(--accent-glow);
+            box-shadow: 0 25px 60px rgba(59, 130, 246, 0.3);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.2), rgba(15, 20, 25, 0.4));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4.5rem;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .product-image::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.1), transparent 60%);
+            animation: rotate 20s linear infinite;
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            position: relative;
+            z-index: 1;
+            padding: 1rem;
+        }
+        
+        .product-info {
+            padding: 1.25rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .product-category {
+            color: var(--accent-glow);
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .product-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .product-description {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+        
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0.75rem 0;
+            background: rgba(30, 64, 175, 0.1);
+            padding: 0.5rem;
+            border-radius: 10px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+        
+        .quantity-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-glow));
+            border: none;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+        
+        .quantity-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+        }
+        
+        .quantity-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .quantity-display {
+            flex: 1;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        .product-price {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--price-green), #16a34a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+        }
+        
+        .buy-btn {
+            background: linear-gradient(135deg, var(--price-green), var(--price-green-dark));
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            font-size: 0.95rem;
+            box-shadow: 0 6px 20px rgba(34, 197, 94, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .buy-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .buy-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .buy-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(34, 197, 94, 0.5);
+        }
+        
+        .cart-btn {
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.3), rgba(37, 99, 235, 0.2));
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--accent-glow);
+            color: var(--text-primary);
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.2);
+        }
+        
+        .cart-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(59, 130, 246, 0.4);
+        }
+        
+        .cart-count {
+            background: linear-gradient(135deg, var(--price-green), var(--price-green-dark));
+            color: white;
+            border-radius: 50%;
+            min-width: 28px;
+            height: 28px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0 0.5rem;
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.5);
+        }
+        
+        /* Categories */
+        .categories {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .category-btn {
+            background: linear-gradient(135deg, rgba(20, 27, 43, 0.6), rgba(15, 20, 25, 0.4));
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--border);
+            color: var(--text-secondary);
+            padding: 1rem 2.25rem;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.9rem;
+        }
+        
+        .category-btn:hover {
+            border-color: var(--accent-glow);
+            color: var(--text-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+        }
+        
+        .category-btn.active {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-glow));
+            border-color: var(--accent-glow);
+            color: white;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.75rem;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: linear-gradient(135deg, rgba(15, 20, 25, 0.95), rgba(10, 14, 26, 0.95));
+            border: 2px solid var(--accent-glow);
+            border-radius: 24px;
+            padding: 2.5rem;
+            max-width: 700px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalSlide 0.4s ease;
+            box-shadow: 0 25px 80px rgba(59, 130, 246, 0.3);
+        }
+        
+        @keyframes modalSlide {
+            from {
+                opacity: 0;
+                transform: translateY(50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        /* Loading Spinner */
+        .spinner {
+            border: 5px solid rgba(59, 130, 246, 0.2);
+            border-top: 5px solid var(--accent-glow);
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            animation: spin 1s linear infinite;
+            margin: 3rem auto;
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .checkmark {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--success), var(--price-green-dark));
+            margin: 3rem auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            animation: checkmarkPop 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 0 60px rgba(34, 197, 94, 0.6);
+        }
+        
+        @keyframes checkmarkPop {
+            0% { transform: scale(0) rotate(-180deg); }
+            70% { transform: scale(1.2) rotate(10deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+        
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            background: rgba(20, 27, 43, 0.6);
+            border: 2px solid var(--border);
+            color: var(--text-primary);
+            padding: 0.875rem 1rem;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent-glow);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-glow));
+            color: white;
+            border: none;
+            padding: 1.25rem 2.5rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .submit-btn:hover::before {
+            width: 400px;
+            height: 400px;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 50px rgba(59, 130, 246, 0.5);
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .section-title { font-size: 2rem; }
+            .product-grid { grid-template-columns: 1fr; }
+            .stats-section { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Epic Animated Background -->
+    <div class="animated-background">
+        <div class="bg-gradient"></div>
+        <div class="bg-grid"></div>
+        <div class="bg-orb"></div>
+        <div class="bg-orb"></div>
+        <div class="bg-orb"></div>
+    </div>
+
+    <header>
+        <div class="header-content">
+            <div class="logo" onclick="showHome()">🍩 DonutSMP Market</div>
+            <div class="nav-links">
+                <a class="nav-link" onclick="showHome()">Home</a>
+                <a class="nav-link" onclick="showMarket()">Browse Market</a>
+            </div>
+            <div style="display: flex; gap: 1rem; align-items: center;">
+                <button class="cart-btn" onclick="showCart()">
+                    🛒 Cart
+                    <span class="cart-count" id="cartCount">0</span>
+                </button>
+                <button onclick="showAdminLogin()" style="background: transparent; border: 1px solid var(--border); color: var(--text-secondary); width: 40px; height: 40px; border-radius: 8px; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center;">
+                    ⚙️
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Homepage -->
+        <div class="homepage" id="homepage">
+            <div class="hero scroll-fade-in">
+                <div class="badge-container">
+                    <div class="badge">🏆 #1 DonutSMP Shop</div>
+                    <div class="badge badge-safe">✓ 100% Safe - No IRL Trading</div>
+                </div>
+                <h1 class="glow-text">DonutSMP Market</h1>
+                <p>The official marketplace for spawners, farms, and bases</p>
+                <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 2.5rem;">
+                    Not bannable • In-game currency only • Trusted by thousands
+                </p>
+                <div class="cta-buttons" style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem;">
+                    <button class="cta-btn" onclick="showMarket()">Browse Market</button>
+                </div>
+            </div>
+
+            <!-- Why Us Section -->
+            <div style="text-align: center; margin: 4rem 0 2rem;">
+                <h2 class="section-title" style="font-size: 2.5rem; margin-bottom: 3rem;">Why Choose Us?</h2>
+            </div>
+
+            <!-- Stats Section -->
+            <div class="stats-section scroll-fade-in">
+                <div class="stat-card">
+                    <div class="stat-number">1600+</div>
+                    <div class="stat-label">Orders Completed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">30+</div>
+                    <div class="stat-label">Daily Transactions</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">July 2025</div>
+                    <div class="stat-label">Established Since</div>
+                </div>
+            </div>
+
+            <!-- How It Works -->
+            <div class="how-it-works scroll-fade-in">
+                <h2 class="section-title">How It Works</h2>
+                <div class="steps-grid">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <div class="step-icon">🔍</div>
+                        <h3 class="step-title">Browse</h3>
+                        <p class="step-description">Explore our wide selection of premium spawners, farms, and bases</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <div class="step-icon">🛒</div>
+                        <h3 class="step-title">Order</h3>
+                        <p class="step-description">Add items to cart and complete your order with in-game currency</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <div class="step-icon">⚡</div>
+                        <h3 class="step-title">Fast Delivery</h3>
+                        <p class="step-description">Receive your items within 24 hours - guaranteed!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Market Page -->
+        <div class="market-page" id="marketPage" style="display: none;">
+            <div class="page-header" style="margin-bottom: 3rem;">
+                <h1 style="font-size: 3rem; font-weight: 900; margin-bottom: 0.5rem; background: linear-gradient(135deg, var(--text-primary), var(--accent-glow)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Browse Market</h1>
+                <p style="color: var(--text-secondary); font-size: 1.1rem;">Find the perfect spawner, farm, or base for your needs</p>
+            </div>
+
+            <div class="categories">
+                <button class="category-btn active" onclick="filterCategory('all')">All Items</button>
+                <button class="category-btn" onclick="filterCategory('spawners')">🦴 Spawners</button>
+                <button class="category-btn" onclick="filterCategory('farms')">🌿 Farms</button>
+                <button class="category-btn" onclick="filterCategory('investments')">💎 Investments</button>
+            </div>
+
+            <div class="product-grid" id="productGrid"></div>
+        </div>
+    </div>
+
+    <script>
+        // ADMIN KEY - Change this!
+        const ADMIN_KEY = 'donutadmin2025';
+        
+        const DEFAULT_PRODUCTS = [
+            {
+                id: 1,
+                category: 'spawners',
+                title: 'Skeleton Spawner XP Farm',
+                description: 'Premium skeleton spawner with automatic XP collection. Generates 30+ levels per hour. Minimum order: 20 spawners.',
+                price: 48000000,
+                pricePerUnit: 2400000,
+                minQuantity: 20,
+                allowQuantity: true,
+                stock: 5190,
+                image: 'https://i.imgur.com/daVpjVS.png'
+            },
+            {
+                id: 2,
+                category: 'farms',
+                title: 'Industrial Kelp Farm',
+                description: 'Massive kelp farm producing 1.5B per day. Fully automated with instant collection.',
+                price: 450000000,
+                allowQuantity: false,
+                stock: 4,
+                image: 'https://i.imgur.com/A14gPrq.png'
+            },
+            {
+                id: 3,
+                category: 'investments',
+                title: 'Gilded Blackstone Shulker',
+                description: 'Premium investment shulker filled with gilded blackstone. High-value storage solution.',
+                price: 2500000000,
+                pricePerUnit: 2500000000,
+                minQuantity: 1,
+                allowQuantity: true,
+                stock: 12,
+                image: 'https://i.imgur.com/daVpjVS.png'
+            },
+            {
+                id: 4,
+                category: 'investments',
+                title: 'Elytra Shulker',
+                description: 'Exclusive shulker containing elytras. Perfect for resale or collection.',
+                price: 8000000000,
+                pricePerUnit: 8000000000,
+                minQuantity: 1,
+                allowQuantity: true,
+                stock: 19,
+                image: 'https://i.imgur.com/dbDbtpS.png'
+            },
+            {
+                id: 5,
+                category: 'investments',
+                title: 'Enchanted Netherite Armor Shulker',
+                description: 'Full shulker of enchanted netherite armor. Ready for immediate use or trade.',
+                price: 300000000,
+                pricePerUnit: 300000000,
+                minQuantity: 1,
+                allowQuantity: true,
+                stock: 72,
+                image: 'https://i.imgur.com/bEPKNEH.png'
+            }
+        ];
+        
+        let products = JSON.parse(localStorage.getItem('products')) || [];
+        
+        // Reset products if old data exists
+        if (products.length === 0 || products.length < 5 || !products.find(p => p.category === 'investments')) {
+            products = DEFAULT_PRODUCTS;
+            localStorage.setItem('products', JSON.stringify(products));
+        }
+        
+        let payments = JSON.parse(localStorage.getItem('payments')) || [];
+        let cart = [];
+        let currentCategory = 'all';
+        let currentProduct = null;
+        
+        function saveProducts() {
+            localStorage.setItem('products', JSON.stringify(products));
+        }
+        
+        function savePayments() {
+            localStorage.setItem('payments', JSON.stringify(payments));
+        }
+        
+        function updateCartCount() {
+            const count = cart.reduce((total, item) => total + item.quantity, 0);
+            document.getElementById('cartCount').textContent = count;
+        }
+        
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+            
+            const quantity = product.allowQuantity ? 
+                (parseInt(document.getElementById(`quantity-${productId}`).value) || product.minQuantity) : 
+                1;
+            
+            const existingItem = cart.find(item => item.productId === productId);
+            
+            if (existingItem) {
+                existingItem.quantity += quantity;
+            } else {
+                cart.push({
+                    productId: productId,
+                    product: product,
+                    quantity: quantity,
+                    pricePerUnit: product.allowQuantity ? product.pricePerUnit : product.price
+                });
+            }
+            
+            updateCartCount();
+            
+            const notification = document.createElement('div');
+            notification.style.cssText = 'position: fixed; top: 100px; right: 20px; background: linear-gradient(135deg, var(--success), var(--price-green-dark)); color: white; padding: 1.25rem 2rem; border-radius: 12px; z-index: 10000; animation: slideDown 0.3s ease; box-shadow: 0 10px 40px rgba(34, 197, 94, 0.5); font-weight: 700;';
+            notification.textContent = `✓ Added to cart: ${product.title}${quantity > 1 ? ` (x${quantity})` : ''}`;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'fadeOut 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 2000);
+        }
+        
+        function showHome() {
+            document.getElementById('homepage').style.display = 'block';
+            document.getElementById('marketPage').style.display = 'none';
+            initScrollAnimations();
+        }
+        
+        function showMarket() {
+            document.getElementById('homepage').style.display = 'none';
+            document.getElementById('marketPage').style.display = 'block';
+            renderProducts();
+        }
+        
+        function filterCategory(category) {
+            currentCategory = category;
+            document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            renderProducts();
+        }
+        
+        function renderProducts() {
+            const grid = document.getElementById('productGrid');
+            
+            let filtered = products;
+            if (currentCategory !== 'all') {
+                filtered = products.filter(p => p.category === currentCategory);
+            }
+            
+            grid.innerHTML = filtered.map(product => `
+                <div class="product-card scroll-fade-in">
+                    <div class="product-image">
+                        ${product.image.startsWith('http') ? 
+                            `<img src="${product.image}" alt="${product.title}">` : 
+                            product.image}
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">${getCategoryName(product.category)}</div>
+                        <div class="product-title">${product.title}</div>
+                        <div class="product-description">${product.description}</div>
+                        
+                        ${product.allowQuantity ? `
+                            <div class="quantity-selector">
+                                <button class="quantity-btn" onclick="changeQuantity(${product.id}, -1)">-</button>
+                                <div class="quantity-display">
+                                    <input type="number" 
+                                           id="quantity-${product.id}" 
+                                           value="${product.minQuantity}" 
+                                           min="${product.minQuantity}"
+                                           style="width: 70px; text-align: center; background: transparent; border: none; color: var(--text-primary); font-size: 1.25rem; font-weight: 700; font-family: 'JetBrains Mono', monospace;">
+                                </div>
+                                <button class="quantity-btn" onclick="changeQuantity(${product.id}, 1)">+</button>
+                            </div>
+                        ` : ''}
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin: 1.5rem 0;">
+                            <div>
+                                <div class="product-price">$${formatPrice(product.allowQuantity ? product.pricePerUnit : product.price)}</div>
+                                ${product.allowQuantity ? `<div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem;">per unit</div>` : ''}
+                            </div>
+                        </div>
+                        <button class="buy-btn" onclick="addToCart(${product.id})">Add to Cart</button>
+                    </div>
+                </div>
+            `).join('');
+            
+            setTimeout(initScrollAnimations, 100);
+        }
+        
+        function changeQuantity(productId, change) {
+            const input = document.getElementById(`quantity-${productId}`);
+            const product = products.find(p => p.id === productId);
+            const newValue = parseInt(input.value) + change;
+            
+            if (newValue >= product.minQuantity) {
+                input.value = newValue;
+            }
+        }
+        
+        function formatPrice(price) {
+            if (price >= 1000000) {
+                return (price / 1000000).toFixed(1) + 'M';
+            } else if (price >= 1000) {
+                return (price / 1000).toFixed(1) + 'K';
+            }
+            return price;
+        }
+        
+        function getCategoryName(category) {
+            const names = {
+                spawners: '🦴 Spawners',
+                farms: '🌿 Farms',
+                investments: '💎 Investments'
+            };
+            return names[category] || category;
+        }
+        
+        function showCart() {
+            if (cart.length === 0) {
+                alert('Your cart is empty! Add some items first.');
+                return;
+            }
+            
+            let cartHTML = '<div style="background: linear-gradient(135deg, rgba(15, 20, 25, 0.95), rgba(10, 14, 26, 0.95)); border: 2px solid var(--accent-glow); border-radius: 24px; padding: 2.5rem; max-width: 700px; box-shadow: 0 25px 80px rgba(59, 130, 246, 0.3);">';
+            cartHTML += '<h2 style="font-size: 2rem; font-weight: 700; margin-bottom: 2rem; text-align: center;">Shopping Cart</h2>';
+            
+            let total = 0;
+            cart.forEach((item, index) => {
+                const itemTotal = item.pricePerUnit * item.quantity;
+                total += itemTotal;
+                
+                cartHTML += `
+                    <div style="background: rgba(20, 27, 43, 0.6); border: 1px solid var(--border); border-radius: 16px; padding: 1.25rem; margin-bottom: 1rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.75rem;">
+                            <div style="flex: 1;">
+                                <h3 style="margin-bottom: 0.25rem; font-size: 1.1rem;">${item.product.title}</h3>
+                                <p style="color: var(--text-secondary); font-size: 0.85rem;">Quantity: ${item.quantity} × $${formatPrice(item.pricePerUnit)}</p>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="color: var(--price-green); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 1.25rem;">$${formatPrice(itemTotal)}</div>
+                            </div>
+                        </div>
+                        <button onclick="removeFromCart(${index}); showCart();" style="background: #ef4444; color: white; border: none; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: all 0.3s;">Remove</button>
+                    </div>
+                `;
+            });
+            
+            cartHTML += `
+                <div style="border-top: 2px solid var(--border); padding-top: 1.5rem; margin-top: 1.5rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                        <h3 style="font-size: 1.5rem;">Total:</h3>
+                        <div style="font-family: 'JetBrains Mono', monospace; font-size: 2rem; font-weight: 700; background: linear-gradient(135deg, var(--price-green), #16a34a); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">$${formatPrice(total)}</div>
+                    </div>
+                    <button onclick="proceedToCheckout()" style="background: linear-gradient(135deg, var(--accent-blue), var(--accent-glow)); color: white; border: none; padding: 1.25rem 2.5rem; border-radius: 12px; font-weight: 700; font-size: 1.1rem; cursor: pointer; width: 100%; box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3); transition: all 0.3s;">Proceed to Checkout</button>
+                </div>
+            `;
+            
+            cartHTML += '</div>';
+            
+            const modal = document.createElement('div');
+            modal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(10px); z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 2rem;';
+            modal.innerHTML = cartHTML;
+            modal.onclick = (e) => {
+                if (e.target === modal) modal.remove();
+            };
+            document.body.appendChild(modal);
+        }
+        
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartCount();
+        }
+        
+        function proceedToCheckout() {
+            // Close cart modal
+            document.querySelectorAll('[style*="position: fixed"]').forEach(el => el.remove());
+            
+            // Show checkout modal
+            showCheckoutModal();
+        }
+        
+        function showCheckoutModal() {
+            const totalPrice = cart.reduce((sum, item) => sum + (item.pricePerUnit * item.quantity), 0);
+            const items = cart.map(item => `${item.product.title} (x${item.quantity})`).join(', ');
+            
+            const modal = document.createElement('div');
+            modal.id = 'checkoutModal';
+            modal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(10px); z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 2rem; animation: fadeIn 0.3s ease;';
+            
+            modal.innerHTML = `
+                <div style="background: linear-gradient(135deg, rgba(15, 20, 25, 0.95), rgba(10, 14, 26, 0.95)); border: 2px solid var(--accent-glow); border-radius: 24px; padding: 2.5rem; max-width: 600px; width: 100%; box-shadow: 0 25px 80px rgba(59, 130, 246, 0.3); animation: slideUp 0.4s ease;">
+                    <h2 style="font-size: 2rem; font-weight: 700; margin-bottom: 2rem; text-align: center;">Checkout</h2>
+                    
+                    <div style="background: rgba(20, 27, 43, 0.6); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem;">
+                        <h3 style="margin-bottom: 1rem; font-size: 1.25rem;">Order Summary</h3>
+                        <p style="color: var(--text-secondary); margin-bottom: 0.5rem; font-size: 0.9rem;">${items}</p>
+                        <div style="display: flex; justify-content: space-between; padding-top: 1rem; border-top: 1px solid var(--border); margin-top: 1rem;">
+                            <strong>Total:</strong>
+                            <strong style="color: var(--price-green); font-family: 'JetBrains Mono', monospace; font-size: 1.5rem;">$${formatPrice(totalPrice)}</strong>
+                        </div>
+                    </div>
+                    
+                    <div style="background: rgba(37, 99, 235, 0.1); border: 1px solid var(--accent-blue); border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem;">
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.5rem;">📝 Please provide your information:</p>
+                    </div>
+                    
+                    <form id="checkoutForm">
+                        <div style="margin-bottom: 1.25rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-secondary);">Discord Username *</label>
+                            <input type="text" id="discordUser" placeholder="YourName#1234" required style="width: 100%; background: rgba(20, 27, 43, 0.6); border: 2px solid var(--border); color: var(--text-primary); padding: 0.875rem 1rem; border-radius: 10px; font-family: inherit; font-size: 1rem;">
+                        </div>
+                        
+                        <div style="margin-bottom: 1.5rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-secondary);">Minecraft Username *</label>
+                            <input type="text" id="minecraftUser" placeholder="YourMinecraftName" required style="width: 100%; background: rgba(20, 27, 43, 0.6); border: 2px solid var(--border); color: var(--text-primary); padding: 0.875rem 1rem; border-radius: 10px; font-family: inherit; font-size: 1rem;">
+                        </div>
+                        
+                        <button type="submit" style="background: linear-gradient(135deg, var(--accent-blue), var(--accent-glow)); color: white; border: none; padding: 1.25rem 2.5rem; border-radius: 12px; font-weight: 700; font-size: 1.1rem; cursor: pointer; width: 100%; box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3); transition: all 0.3s;">
+                            Continue to Payment
+                        </button>
+                    </form>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            document.getElementById('checkoutForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const discord = document.getElementById('discordUser').value;
+                const minecraft = document.getElementById('minecraftUser').value;
+                
+                // Send Discord webhook immediately
+                sendDiscordWebhook(discord, minecraft, totalPrice, items);
+                
+                modal.remove();
+                showPaymentInstructions(discord, minecraft, totalPrice, items);
+            });
+        }
+        
+        function showPaymentInstructions(discord, minecraft, totalPrice, items) {
+            const modal = document.createElement('div');
+            modal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(10px); z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 2rem;';
+            
+            modal.innerHTML = `
+                <div style="background: linear-gradient(135deg, rgba(15, 20, 25, 0.95), rgba(10, 14, 26, 0.95)); border: 2px solid var(--accent-glow); border-radius: 24px; padding: 2.5rem; max-width: 600px; width: 100%; box-shadow: 0 25px 80px rgba(59, 130, 246, 0.3); animation: slideUp 0.4s ease;">
+                    <h2 style="font-size: 2rem; font-weight: 700; margin-bottom: 2rem; text-align: center; color: var(--price-green);">✓ Order Placed</h2>
+                    
+                    <div style="background: rgba(20, 27, 43, 0.6); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem;">
+                        <h3 style="margin-bottom: 1rem;">📝 Payment Instructions</h3>
+                        <p style="color: var(--text-secondary); margin-bottom: 0.75rem;">1. Log into Minecraft on DonutSMP</p>
+                        <p style="color: var(--text-secondary); margin-bottom: 0.75rem;">2. Execute this command:</p>
+                        <div style="background: rgba(30, 64, 175, 0.2); border: 1px solid var(--accent-blue); padding: 1rem; border-radius: 10px; margin: 1rem 0; font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; color: var(--price-green); text-align: center;">
+                            /pay Langsamerr ${totalPrice}
+                        </div>
+                        <p style="color: var(--text-secondary); margin-bottom: 0.5rem;">3. Click the button below after payment</p>
+                    </div>
+                    
+                    <div style="background: rgba(34, 197, 94, 0.1); border: 1px solid var(--success); border-radius: 12px; padding: 1rem; margin-bottom: 1.5rem;">
+                        <p style="color: var(--success); margin: 0; font-size: 0.9rem;"><strong>✓ What's next:</strong> We will contact you on Discord within 12 hours. Order ready in max. 1 day!</p>
+                    </div>
+                    
+                    <button onclick="startPaymentVerification('${discord}', '${minecraft}', ${totalPrice}, '${items}')" style="background: linear-gradient(135deg, var(--price-green), var(--price-green-dark)); color: white; border: none; padding: 1.25rem 2.5rem; border-radius: 12px; font-weight: 700; font-size: 1.1rem; cursor: pointer; width: 100%; box-shadow: 0 10px 30px rgba(34, 197, 94, 0.4);">
+                        ✓ I Have Made The Payment
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+        
+        function startPaymentVerification(discord, minecraft, totalPrice, items) {
+            // Close previous modal
+            document.querySelectorAll('[style*="position: fixed"]').forEach(el => el.remove());
+            
+            // Show verification loading
+            showVerificationLoading();
+            
+            // Random time 3-5 minutes
+            const minTime = 3 * 60 * 1000; // 3 min
+            const maxTime = 5 * 60 * 1000; // 5 min
+            const randomTime = Math.floor(Math.random() * (maxTime - minTime + 1)) + minTime;
+            
+            // FOR TESTING: 3-5 seconds
+            // const randomTime = Math.floor(Math.random() * (5000 - 3000 + 1)) + 3000;
+            
+            setTimeout(() => {
+                // 50% chance success or fail
+                const success = Math.random() < 0.5;
+                
+                if (success) {
+                    showPaymentSuccess(discord, minecraft, totalPrice, items);
+                } else {
+                    showPaymentFailed(discord, minecraft, totalPrice, items);
+                }
+            }, randomTime);
+        }
+        
+        function showVerificationLoading() {
+            const modal = document.createElement('div');
+            modal.id = 'verifyModal';
+            modal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(10px); z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 2rem;';
+            
+            modal.innerHTML = `
+                <div style="background: linear-gradient(135deg, rgba(15, 20, 25, 0.95), rgba(10, 14, 26, 0.95)); border: 2px solid var(--accent-glow); border-radius: 24px; padding: 3rem; max-width: 500px; width: 100%; box-shadow: 0 25px 80px rgba(59, 130, 246, 0.3); text-align: center;">
+                    <div class="spinner"></div>
+                    <h2 style="font-size: 2rem; font-weight: 700; margin: 2rem 0 1rem;">Verifying Payment...</h2>
+                    <p style="color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 2rem;">This may take 3-5 minutes</p>
+                    <p style="color: var(--text-secondary); font-size: 0.95rem;">Please don't close this window</p>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+        
+        function showPaymentFailed(discord, minecraft, totalPrice, items) {
+            document.getElementById('verifyModal').remove();
+            
+            const modal = document.createElement('div');
+            modal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(10px); z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 2rem;';
+            
+            modal.innerHTML = `
+                <div style="background: linear-gradient(135deg, rgba(15, 20, 25, 0.95), rgba(10, 14, 26, 0.95)); border: 2px solid #ef4444; border-radius: 24px; padding: 3rem; max-width: 500px; width: 100%; box-shadow: 0 25px 80px rgba(239, 68, 68, 0.3); text-align: center; animation: slideUp 0.4s ease;">
+                    <div style="width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(135deg, #ef4444, #dc2626); margin: 0 auto 2rem; display: flex; align-items: center; justify-content: center; font-size: 4rem; box-shadow: 0 0 50px rgba(239, 68, 68, 0.6); animation: checkmarkPop 0.6s ease;">
+                        ✗
+                    </div>
+                    <h2 style="font-size: 2rem; font-weight: 700; margin-bottom: 1rem; color: #ef4444;">Payment Not Found</h2>
+                    <p style="color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 2rem;">We couldn't verify your payment. Please try again.</p>
+                    
+                    <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid #ef4444; border-radius: 12px; padding: 1.25rem; margin-bottom: 2rem;">
+                        <p style="color: #ef4444; margin: 0; font-size: 0.9rem;"><strong>⚠️ Note:</strong> Make sure you executed the correct /pay command in Minecraft</p>
+                    </div>
+                    
+                    <button onclick="startPaymentVerification('${discord}', '${minecraft}', ${totalPrice}, '${items}')" style="background: linear-gradient(135deg, var(--accent-blue), var(--accent-glow)); color: white; border: none; padding: 1.25rem 2.5rem; border-radius: 12px; font-weight: 700; font-size: 1.1rem; cursor: pointer; width: 100%; margin-bottom: 1rem; box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);">
+                        🔄 Try Verification Again
+                    </button>
+                    
+                    <button onclick="document.body.removeChild(this.closest('[style*=\\'position: fixed\\']')); showHome();" style="background: transparent; border: 2px solid var(--border); color: var(--text-secondary); padding: 1rem 2rem; border-radius: 12px; font-weight: 700; cursor: pointer; width: 100%;">
+                        Cancel Order
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+        
+        function showPaymentSuccess(discord, minecraft, totalPrice, items) {
+            document.getElementById('verifyModal').remove();
+            
+            const deliveryDate = new Date();
+            deliveryDate.setDate(deliveryDate.getDate() + 1);
+            const deliveryDateStr = deliveryDate.toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            
+            const modal = document.createElement('div');
+            modal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(10px); z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 2rem;';
+            
+            modal.innerHTML = `
+                <div style="background: linear-gradient(135deg, rgba(15, 20, 25, 0.95), rgba(10, 14, 26, 0.95)); border: 2px solid var(--success); border-radius: 24px; padding: 3rem; max-width: 600px; width: 100%; box-shadow: 0 25px 80px rgba(34, 197, 94, 0.3); text-align: center; animation: slideUp 0.4s ease;">
+                    <div class="checkmark">✓</div>
+                    <h2 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem; color: var(--success);">Payment Verified!</h2>
+                    <p style="color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 2rem;">Your payment has been successfully verified</p>
+                    
+                    <div style="background: rgba(20, 27, 43, 0.6); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; margin-bottom: 2rem; text-align: left;">
+                        <h3 style="margin-bottom: 1rem;">📦 Order Details</h3>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border);">
+                            <span style="color: var(--text-secondary);">Items:</span>
+                            <strong style="text-align: right; max-width: 60%;">${items}</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border);">
+                            <span style="color: var(--text-secondary);">Amount Paid:</span>
+                            <strong style="color: var(--price-green); font-family: 'JetBrains Mono', monospace;">$${formatPrice(totalPrice)}</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border);">
+                            <span style="color: var(--text-secondary);">Discord:</span>
+                            <strong style="color: var(--accent-glow);">${discord}</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-secondary);">Minecraft:</span>
+                            <strong>${minecraft}</strong>
+                        </div>
+                    </div>
+                    
+                    <div style="background: rgba(34, 197, 94, 0.1); border: 1px solid var(--success); border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem;">
+                        <h3 style="color: var(--success); margin-bottom: 0.75rem; font-size: 1.25rem;">🎉 Estimated Delivery</h3>
+                        <p style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem;">${deliveryDateStr}</p>
+                        <p style="color: var(--text-secondary); font-size: 0.95rem;">We will contact you on Discord within 12 hours</p>
+                    </div>
+                    
+                    <button onclick="document.body.removeChild(this.closest('[style*=\\'position: fixed\\']')); cart = []; updateCartCount(); showHome();" style="background: linear-gradient(135deg, var(--accent-blue), var(--accent-glow)); color: white; border: none; padding: 1.25rem 2.5rem; border-radius: 12px; font-weight: 700; font-size: 1.1rem; cursor: pointer; width: 100%; box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);">
+                        Done
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Clear cart after successful payment
+            setTimeout(() => {
+                cart = [];
+                updateCartCount();
+            }, 1000);
+        }
+        
+        function sendDiscordWebhook(discord, minecraft, totalPrice, items) {
+            const WEBHOOK_URL = 'https://discord.com/api/webhooks/1466064630055960832/MwIbbmk1BvByGGLOF01WLi4eB_vz2mhyHwCEuNXevcIIM8B_kRP1y9TmKaHAglJne7UG';
+            
+            const embed = {
+                title: '🛒 New Order Received',
+                description: 'A new order has been placed on DonutSMP Market',
+                color: 0x3b82f6, // Blue color
+                fields: [
+                    {
+                        name: '👤 Discord',
+                        value: discord,
+                        inline: true
+                    },
+                    {
+                        name: '⛏️ Minecraft',
+                        value: minecraft,
+                        inline: true
+                    },
+                    {
+                        name: '💰 Total Price',
+                        value: `$${formatPrice(totalPrice)}`,
+                        inline: true
+                    },
+                    {
+                        name: '📦 Items',
+                        value: items,
+                        inline: false
+                    }
+                ],
+                timestamp: new Date().toISOString(),
+                footer: {
+                    text: 'DonutSMP Market'
+                }
+            };
+            
+            fetch(WEBHOOK_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    embeds: [embed]
+                })
+            }).catch(err => console.log('Webhook error:', err));
+        }
+        
+        function showAdminLogin() {
+            const key = prompt('Enter admin key:');
+            if (key === ADMIN_KEY) {
+                alert('Admin access granted! (Full admin panel coming soon)');
+            } else if (key) {
+                alert('Invalid admin key!');
+            }
+        }
+        
+        // Scroll Animations
+        function initScrollAnimations() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            document.querySelectorAll('.scroll-fade-in').forEach(el => {
+                observer.observe(el);
+            });
+        }
+        
+        // Initialize
+        updateCartCount();
+        initScrollAnimations();
+    </script>
+</body>
+</html>
