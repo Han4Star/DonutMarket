@@ -544,9 +544,10 @@
         .product-image img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
             position: relative;
             z-index: 1;
+            padding: 1rem;
         }
         
         .product-info {
@@ -957,18 +958,22 @@
                 </p>
                 <div class="cta-buttons" style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem;">
                     <button class="cta-btn" onclick="showMarket()">Browse Market</button>
-                    <button class="cta-btn cta-btn-secondary" onclick="showAdminLogin()">List Your Items</button>
                 </div>
+            </div>
+
+            <!-- Why Us Section -->
+            <div style="text-align: center; margin: 4rem 0 2rem;">
+                <h2 class="section-title" style="font-size: 2.5rem; margin-bottom: 3rem;">Why Choose Us?</h2>
             </div>
 
             <!-- Stats Section -->
             <div class="stats-section scroll-fade-in">
                 <div class="stat-card">
                     <div class="stat-number">1600+</div>
-                    <div class="stat-label">Trusted Players</div>
+                    <div class="stat-label">Orders Completed</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number">500+</div>
+                    <div class="stat-number">30+</div>
                     <div class="stat-label">Daily Transactions</div>
                 </div>
                 <div class="stat-card">
@@ -1035,7 +1040,8 @@
                 pricePerUnit: 2400000,
                 minQuantity: 20,
                 allowQuantity: true,
-                image: 'https://i.imgur.com/T356LWH.jpeg'
+                stock: 5190,
+                image: 'https://i.imgur.com/daVpjVS.png'
             },
             {
                 id: 2,
@@ -1044,6 +1050,7 @@
                 description: 'Massive kelp farm producing 1.5B per day. Fully automated with instant collection.',
                 price: 450000000,
                 allowQuantity: false,
+                stock: 4,
                 image: 'https://i.imgur.com/A14gPrq.png'
             },
             {
@@ -1055,7 +1062,8 @@
                 pricePerUnit: 2500000000,
                 minQuantity: 1,
                 allowQuantity: true,
-                image: 'https://i.imgur.com/gdX3K7W.png'
+                stock: 12,
+                image: 'https://i.imgur.com/daVpjVS.png'
             },
             {
                 id: 4,
@@ -1066,7 +1074,8 @@
                 pricePerUnit: 8000000000,
                 minQuantity: 1,
                 allowQuantity: true,
-                image: 'https://i.imgur.com/932705U.png'
+                stock: 19,
+                image: 'https://i.imgur.com/dbDbtpS.png'
             },
             {
                 id: 5,
@@ -1077,7 +1086,8 @@
                 pricePerUnit: 300000000,
                 minQuantity: 1,
                 allowQuantity: true,
-                image: 'https://i.imgur.com/qGh2Ghi.png'
+                stock: 72,
+                image: 'https://i.imgur.com/bEPKNEH.png'
             }
         ];
         
@@ -1527,13 +1537,7 @@
         }
         
         function sendDiscordWebhook(discord, minecraft, totalPrice, items) {
-            const WEBHOOK_URL = 'https://discord.com/api/webhooks/1466064630055960832/MwIbbmk1BvByGGLOF01WLi4eB_vz2mhyHwCEuNXevcIIM8B_kRP1y9TmKaHAglJne7UG'; // CHANGE THIS!
-            
-            // Skip if no webhook URL configured
-            if (WEBHOOK_URL === 'YOUR_DISCORD_WEBHOOK_URL_HERE') {
-                console.log('Discord webhook not configured');
-                return;
-            }
+            const WEBHOOK_URL = 'https://discord.com/api/webhooks/1466064630055960832/MwIbbmk1BvByGGLOF01WLi4eB_vz2mhyHwCEuNXevcIIM8B_kRP1y9TmKaHAglJne7UG';
             
             const embed = {
                 title: '🛒 New Order Received',
