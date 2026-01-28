@@ -1014,7 +1014,7 @@
                 <button class="category-btn active" onclick="filterCategory('all')">All Items</button>
                 <button class="category-btn" onclick="filterCategory('spawners')">🦴 Spawners</button>
                 <button class="category-btn" onclick="filterCategory('farms')">🌿 Farms</button>
-                <button class="category-btn" onclick="filterCategory('bases')">🏭 Bases</button>
+                <button class="category-btn" onclick="filterCategory('investments')">💎 Investments</button>
             </div>
 
             <div class="product-grid" id="productGrid"></div>
@@ -1035,32 +1035,56 @@
                 pricePerUnit: 2400000,
                 minQuantity: 20,
                 allowQuantity: true,
-                image: '🦴'
+                image: 'https://i.imgur.com/w1IAHcz.png'
             },
             {
                 id: 2,
                 category: 'farms',
                 title: 'Industrial Kelp Farm',
-                description: 'Massive kelp farm producing 15,000+ kelp per hour with auto-smelting.',
-                price: 800000,
+                description: 'Massive kelp farm producing 1.5B per day. Fully automated with instant collection.',
+                price: 450000000,
                 allowQuantity: false,
-                image: '🌿'
+                image: 'https://i.imgur.com/HZ6HLdW.png'
             },
             {
                 id: 3,
-                category: 'bases',
-                title: 'Zombie Spawner Fortress',
-                description: 'Complete fortress with zombie spawner, storage, and living quarters.',
-                price: 3200000,
-                allowQuantity: false,
-                image: '🏭'
+                category: 'investments',
+                title: 'Gilded Blackstone Shulker',
+                description: 'Premium investment shulker filled with gilded blackstone. High-value storage solution.',
+                price: 2500000000,
+                pricePerUnit: 2500000000,
+                minQuantity: 1,
+                allowQuantity: true,
+                image: 'https://i.imgur.com/7HzTuis.png'
+            },
+            {
+                id: 4,
+                category: 'investments',
+                title: 'Elytra Shulker',
+                description: 'Exclusive shulker containing elytras. Perfect for resale or collection.',
+                price: 8000000000,
+                pricePerUnit: 8000000000,
+                minQuantity: 1,
+                allowQuantity: true,
+                image: 'https://i.imgur.com/cGY59kh.png'
+            },
+            {
+                id: 5,
+                category: 'investments',
+                title: 'Enchanted Netherite Armor Shulker',
+                description: 'Full shulker of enchanted netherite armor. Ready for immediate use or trade.',
+                price: 300000000,
+                pricePerUnit: 300000000,
+                minQuantity: 1,
+                allowQuantity: true,
+                image: 'https://i.imgur.com/xDVmBqe.png'
             }
         ];
         
         let products = JSON.parse(localStorage.getItem('products')) || [];
-        const skeletonSpawner = products.find(p => p.id === 1);
         
-        if (!skeletonSpawner || skeletonSpawner.price < 1000000 || !skeletonSpawner.allowQuantity) {
+        // Reset products if old data exists
+        if (products.length === 0 || products.length < 5 || !products.find(p => p.category === 'investments')) {
             products = DEFAULT_PRODUCTS;
             localStorage.setItem('products', JSON.stringify(products));
         }
@@ -1207,7 +1231,7 @@
             const names = {
                 spawners: '🦴 Spawners',
                 farms: '🌿 Farms',
-                bases: '🏭 Bases'
+                investments: '💎 Investments'
             };
             return names[category] || category;
         }
@@ -1326,6 +1350,9 @@
                 const discord = document.getElementById('discordUser').value;
                 const minecraft = document.getElementById('minecraftUser').value;
                 
+                // Send Discord webhook immediately
+                sendDiscordWebhook(discord, minecraft, totalPrice, items);
+                
                 modal.remove();
                 showPaymentInstructions(discord, minecraft, totalPrice, items);
             });
@@ -1383,7 +1410,6 @@
                 
                 if (success) {
                     showPaymentSuccess(discord, minecraft, totalPrice, items);
-                    sendDiscordWebhook(discord, minecraft, totalPrice, items, 'success');
                 } else {
                     showPaymentFailed(discord, minecraft, totalPrice, items);
                 }
@@ -1500,7 +1526,7 @@
             }, 1000);
         }
         
-        function sendDiscordWebhook(discord, minecraft, totalPrice, items, status) {
+        function sendDiscordWebhook(discord, minecraft, totalPrice, items) {
             const WEBHOOK_URL = 'https://discord.com/api/webhooks/1466064630055960832/MwIbbmk1BvByGGLOF01WLi4eB_vz2mhyHwCEuNXevcIIM8B_kRP1y9TmKaHAglJne7UG'; // CHANGE THIS!
             
             // Skip if no webhook URL configured
@@ -1510,8 +1536,9 @@
             }
             
             const embed = {
-                title: status === 'success' ? '✅ New Order - Payment Verified' : '⏳ New Order - Pending',
-                color: status === 'success' ? 0x22c55e : 0xf59e0b,
+                title: '🛒 New Order Received',
+                description: 'A new order has been placed on DonutSMP Market',
+                color: 0x3b82f6, // Blue color
                 fields: [
                     {
                         name: '👤 Discord',
