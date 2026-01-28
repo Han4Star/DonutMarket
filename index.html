@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DonutSMP Market - #1 Official Marketplace</title>
-    <meta name="description" content="The #1 trusted marketplace for DonutSMP players. Buy DonutSMP spawners, items, and bases with instant delivery and 24/7 support. Secure payments.">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -26,7 +25,6 @@
         }
         
         body {
-            
             font-family: 'Inter', sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
@@ -132,23 +130,6 @@
             transform: translateY(0);
         }
         
-        /* Glow Effects */
-        .glow {
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3),
-                        0 0 40px rgba(59, 130, 246, 0.2),
-                        0 0 60px rgba(59, 130, 246, 0.1);
-        }
-        
-        .glow-text {
-            text-shadow: 0 0 20px rgba(59, 130, 246, 0.5),
-                         0 0 40px rgba(59, 130, 246, 0.3);
-        }
-        
-        .glow-green {
-            box-shadow: 0 0 20px rgba(34, 197, 94, 0.4),
-                        0 0 40px rgba(34, 197, 94, 0.2);
-        }
-        
         /* Header */
         header {
             background: rgba(10, 14, 26, 0.8);
@@ -227,12 +208,55 @@
             z-index: 1;
         }
         
+        /* Cart Button */
+        .cart-btn {
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.3), rgba(37, 99, 235, 0.2));
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--accent-glow);
+            color: var(--text-primary);
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.2);
+        }
+        
+        .cart-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(59, 130, 246, 0.4);
+        }
+        
+        .cart-count {
+            background: linear-gradient(135deg, var(--price-green), var(--price-green-dark));
+            color: white;
+            border-radius: 50%;
+            min-width: 28px;
+            height: 28px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0 0.5rem;
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.5);
+            animation: pulse-scale 2s infinite;
+        }
+        
+        @keyframes pulse-scale {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
         /* Hero Section */
         .hero {
             text-align: center;
             padding: 6rem 2rem;
             position: relative;
-            margin-bottom: 5rem;
+            margin-bottom: 4rem;
         }
         
         .hero::before {
@@ -300,7 +324,6 @@
             background: linear-gradient(135deg, var(--text-primary), var(--accent-glow), var(--price-green));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 80px rgba(59, 130, 246, 0.3);
             animation: title-glow 5s ease-in-out infinite;
         }
         
@@ -309,10 +332,61 @@
             50% { filter: drop-shadow(0 0 40px rgba(59, 130, 246, 0.6)); }
         }
         
-        .hero p {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
+        /* CTA Buttons */
+        .cta-btn {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-glow));
+            color: white;
+            border: none;
+            padding: 1.25rem 3rem;
+            border-radius: 16px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(37, 99, 235, 0.4);
+        }
+        
+        .cta-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .cta-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .cta-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 50px rgba(37, 99, 235, 0.6);
+        }
+        
+        /* Section Title */
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            font-weight: 900;
             margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-glow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
         }
         
         /* Stats Section */
@@ -373,120 +447,18 @@
             font-weight: 600;
         }
         
-        /* How It Works */
-        .how-it-works {
-            margin: 5rem 0;
-        }
-        
-        .section-title {
-            text-align: center;
-            font-size: 3rem;
-            font-weight: 900;
-            margin-bottom: 3rem;
-            background: linear-gradient(135deg, var(--text-primary), var(--accent-glow));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .steps-grid {
+        /* Product Grid */
+        .product-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 3rem;
-            margin-top: 3rem;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.75rem;
+            margin: 3rem 0;
         }
         
-        .step-card {
-            text-align: center;
-            padding: 2rem;
-            position: relative;
-        }
-        
-        .step-number {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent-blue), var(--accent-glow));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            font-weight: 900;
-            margin: 0 auto 1.5rem;
-            box-shadow: 0 10px 40px rgba(59, 130, 246, 0.4);
-            transition: all 0.3s;
-        }
-        
-        .step-card:hover .step-number {
-            transform: scale(1.1) rotate(5deg);
-            box-shadow: 0 15px 60px rgba(59, 130, 246, 0.6);
-        }
-        
-        .step-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .step-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 0.75rem;
-        }
-        
-        .step-description {
-            color: var(--text-secondary);
-        }
-        
-        /* Buttons */
-        .cta-btn {
-            background: linear-gradient(135deg, var(--accent-blue), var(--accent-glow));
-            color: white;
-            border: none;
-            padding: 1.25rem 3rem;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
-        }
-        
-        .cta-btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-        
-        .cta-btn:hover::before {
-            width: 300px;
-            height: 300px;
-        }
-        
-        .cta-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 50px rgba(59, 130, 246, 0.5);
-        }
-        
-        .cta-btn-secondary {
-            background: rgba(30, 64, 175, 0.2);
-            border: 2px solid var(--accent-glow);
-            backdrop-filter: blur(10px);
-        }
-        
-        /* Product Cards */
         .product-card {
-            background: linear-gradient(135deg, rgba(20, 27, 43, 0.6), rgba(15, 20, 25, 0.4));
-            backdrop-filter: blur(10px);
+            background: linear-gradient(135deg, rgba(20, 27, 43, 0.8), rgba(20, 27, 43, 0.4));
             border: 1px solid var(--border);
-            border-radius: 20px;
+            border-radius: 24px;
             overflow: hidden;
             transition: all 0.4s;
             position: relative;
@@ -499,9 +471,10 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), transparent);
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.05), transparent);
             opacity: 0;
             transition: opacity 0.4s;
+            pointer-events: none;
         }
         
         .product-card:hover::before {
@@ -509,9 +482,9 @@
         }
         
         .product-card:hover {
-            transform: translateY(-15px);
-            border-color: var(--accent-glow);
-            box-shadow: 0 25px 60px rgba(59, 130, 246, 0.3);
+            transform: translateY(-10px);
+            border-color: var(--accent-blue);
+            box-shadow: 0 20px 60px rgba(59, 130, 246, 0.4);
         }
         
         .product-image {
@@ -521,35 +494,18 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 4.5rem;
             border-bottom: 1px solid var(--border);
             position: relative;
             overflow: hidden;
-        }
-        
-        .product-image::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(59, 130, 246, 0.1), transparent 60%);
-            animation: rotate 20s linear infinite;
-        }
-        
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
         }
         
         .product-image img {
             width: 100%;
             height: 100%;
             object-fit: contain;
+            padding: 1rem;
             position: relative;
             z-index: 1;
-            padding: 1rem;
         }
         
         .product-info {
@@ -578,6 +534,37 @@
             font-size: 0.85rem;
             margin-bottom: 1rem;
             line-height: 1.5;
+        }
+        
+        .stock-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            background: rgba(34, 197, 94, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(34, 197, 94, 0.2);
+        }
+        
+        .stock-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--success);
+            box-shadow: 0 0 10px rgba(34, 197, 94, 0.8);
+            animation: pulse-dot 2s infinite;
+        }
+        
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .stock-text {
+            font-size: 0.85rem;
+            color: var(--success);
+            font-weight: 600;
         }
         
         .quantity-selector {
@@ -613,26 +600,25 @@
             box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
         }
         
-        .quantity-btn:active {
-            transform: scale(0.95);
-        }
-        
-        .quantity-display {
+        .quantity-display input {
             flex: 1;
             text-align: center;
             font-weight: 700;
             font-size: 1.1rem;
             font-family: 'JetBrains Mono', monospace;
+            width: 70px;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
         }
         
         .product-price {
             font-family: 'JetBrains Mono', monospace;
             font-size: 1.5rem;
             font-weight: 700;
-            background: linear-gradient(135deg, var(--price-green), #16a34a);
+            background: linear-gradient(135deg, var(--price-green), #10b981);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
         }
         
         .buy-btn {
@@ -674,42 +660,6 @@
             box-shadow: 0 12px 35px rgba(34, 197, 94, 0.5);
         }
         
-        .cart-btn {
-            background: linear-gradient(135deg, rgba(30, 64, 175, 0.3), rgba(37, 99, 235, 0.2));
-            backdrop-filter: blur(10px);
-            border: 2px solid var(--accent-glow);
-            color: var(--text-primary);
-            padding: 0.75rem 1.5rem;
-            border-radius: 12px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.2);
-        }
-        
-        .cart-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(59, 130, 246, 0.4);
-        }
-        
-        .cart-count {
-            background: linear-gradient(135deg, var(--price-green), var(--price-green-dark));
-            color: white;
-            border-radius: 50%;
-            min-width: 28px;
-            height: 28px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            font-weight: 700;
-            padding: 0 0.5rem;
-            box-shadow: 0 0 15px rgba(34, 197, 94, 0.5);
-        }
-        
         /* Categories */
         .categories {
             display: flex;
@@ -720,8 +670,7 @@
         }
         
         .category-btn {
-            background: linear-gradient(135deg, rgba(20, 27, 43, 0.6), rgba(15, 20, 25, 0.4));
-            backdrop-filter: blur(10px);
+            background: rgba(20, 27, 43, 0.6);
             border: 2px solid var(--border);
             color: var(--text-secondary);
             padding: 1rem 2.25rem;
@@ -748,10 +697,71 @@
             box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
         }
         
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.75rem;
+        /* Live Orders */
+        .orders-container {
+            max-width: 900px;
+            margin: 2rem auto;
+        }
+        
+        .order-card {
+            background: linear-gradient(135deg, rgba(20, 27, 43, 0.8), rgba(15, 20, 25, 0.6));
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s;
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .order-card:hover {
+            border-color: var(--accent-blue);
+            transform: translateX(5px);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
+        }
+        
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+        
+        .order-time {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+        
+        .order-status {
+            background: linear-gradient(135deg, var(--success), var(--price-green-dark));
+            color: white;
+            padding: 0.35rem 0.85rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+        
+        .order-content {
+            color: var(--text-primary);
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .order-amount {
+            color: var(--price-green);
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            font-size: 1.1rem;
         }
         
         /* Modal */
@@ -776,26 +786,75 @@
         
         .modal-content {
             background: linear-gradient(135deg, rgba(15, 20, 25, 0.95), rgba(10, 14, 26, 0.95));
-            border: 2px solid var(--accent-glow);
+            border: 2px solid var(--border);
             border-radius: 24px;
             padding: 2.5rem;
             max-width: 700px;
             width: 100%;
             max-height: 90vh;
             overflow-y: auto;
-            animation: modalSlide 0.4s ease;
-            box-shadow: 0 25px 80px rgba(59, 130, 246, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+            animation: slideUp 0.4s ease;
         }
         
-        @keyframes modalSlide {
+        @keyframes slideUp {
             from {
                 opacity: 0;
-                transform: translateY(50px) scale(0.9);
+                transform: translateY(50px);
             }
             to {
                 opacity: 1;
-                transform: translateY(0) scale(1);
+                transform: translateY(0);
             }
+        }
+        
+        /* Form */
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+        
+        .form-group input {
+            width: 100%;
+            background: rgba(20, 27, 43, 0.6);
+            border: 2px solid var(--border);
+            color: var(--text-primary);
+            padding: 0.875rem 1rem;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--accent-glow);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-glow));
+            color: white;
+            border: none;
+            padding: 1.25rem 2.5rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 50px rgba(59, 130, 246, 0.5);
         }
         
         /* Loading Spinner */
@@ -835,79 +894,6 @@
             100% { transform: scale(1) rotate(0deg); }
         }
         
-        /* Form Elements */
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-        }
-        
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            background: rgba(20, 27, 43, 0.6);
-            border: 2px solid var(--border);
-            color: var(--text-primary);
-            padding: 0.875rem 1rem;
-            border-radius: 10px;
-            font-family: inherit;
-            font-size: 1rem;
-            transition: all 0.3s;
-        }
-        
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: var(--accent-glow);
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
-        }
-        
-        .submit-btn {
-            background: linear-gradient(135deg, var(--accent-blue), var(--accent-glow));
-            color: white;
-            border: none;
-            padding: 1.25rem 2.5rem;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 1.1rem;
-            cursor: pointer;
-            width: 100%;
-            transition: all 0.3s;
-            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .submit-btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-        
-        .submit-btn:hover::before {
-            width: 400px;
-            height: 400px;
-        }
-        
-        .submit-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 50px rgba(59, 130, 246, 0.5);
-        }
-        
         @media (max-width: 768px) {
             .hero h1 { font-size: 2.5rem; }
             .section-title { font-size: 2rem; }
@@ -932,14 +918,12 @@
             <div class="nav-links">
                 <a class="nav-link" onclick="showHome()">Home</a>
                 <a class="nav-link" onclick="showMarket()">Browse Market</a>
+                <a class="nav-link" onclick="showLiveOrders()">Live Orders</a>
             </div>
             <div style="display: flex; gap: 1rem; align-items: center;">
                 <button class="cart-btn" onclick="showCart()">
                     🛒 Cart
                     <span class="cart-count" id="cartCount">0</span>
-                </button>
-                <button onclick="showAdminLogin()" style="background: transparent; border: 1px solid var(--border); color: var(--text-secondary); width: 40px; height: 40px; border-radius: 8px; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center;">
-                    ⚙️
                 </button>
             </div>
         </div>
@@ -947,18 +931,20 @@
 
     <div class="container">
         <!-- Homepage -->
-        <div class="homepage" id="homepage">
+        <div id="homepage">
             <div class="hero scroll-fade-in">
                 <div class="badge-container">
                     <div class="badge">🏆 #1 DonutSMP Shop</div>
                     <div class="badge badge-safe">✓ 100% Safe - No IRL Trading</div>
                 </div>
-                <h1 class="glow-text">DonutSMP Market</h1>
-                <p>The official marketplace for spawners, farms, and bases</p>
-                <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 2.5rem;">
-                    Not bannable • In-game currency only • Trusted by thousands
+                <h1>DonutSMP Market</h1>
+                <p style="font-size: 1.25rem; color: var(--text-secondary); margin-bottom: 1rem;">
+                    The ultimate marketplace for spawners, farms & investments
                 </p>
-                <div class="cta-buttons" style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem;">
+                <p style="color: var(--text-secondary); font-size: 1rem; margin-bottom: 2.5rem;">
+                    Not bannable • In-game currency only • Lightning fast delivery
+                </p>
+                <div style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem;">
                     <button class="cta-btn" onclick="showMarket()">Browse Market</button>
                 </div>
             </div>
@@ -985,36 +971,40 @@
             </div>
 
             <!-- How It Works -->
-            <div class="how-it-works scroll-fade-in">
+            <div style="margin: 5rem 0;">
                 <h2 class="section-title">How It Works</h2>
-                <div class="steps-grid">
-                    <div class="step-card">
-                        <div class="step-number">1</div>
-                        <div class="step-icon">🔍</div>
-                        <h3 class="step-title">Browse</h3>
-                        <p class="step-description">Explore our wide selection of premium spawners, farms, and bases</p>
+                <p class="section-subtitle">Get your items in 3 simple steps</p>
+                
+                <div class="stats-section scroll-fade-in">
+                    <div class="stat-card" style="padding: 2.5rem;">
+                        <div style="width: 70px; height: 70px; border-radius: 50%; background: linear-gradient(135deg, var(--accent-blue), var(--accent-glow)); margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 900; box-shadow: 0 10px 40px rgba(59, 130, 246, 0.4);">1</div>
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">🔍</div>
+                        <h3 style="font-size: 1.35rem; margin-bottom: 0.75rem;">Browse</h3>
+                        <p style="color: var(--text-secondary); line-height: 1.6;">Explore our wide selection of premium spawners, farms, and investments</p>
                     </div>
-                    <div class="step-card">
-                        <div class="step-number">2</div>
-                        <div class="step-icon">🛒</div>
-                        <h3 class="step-title">Order</h3>
-                        <p class="step-description">Add items to cart and complete your order with in-game currency</p>
+                    
+                    <div class="stat-card" style="padding: 2.5rem;">
+                        <div style="width: 70px; height: 70px; border-radius: 50%; background: linear-gradient(135deg, var(--accent-blue), var(--accent-glow)); margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 900; box-shadow: 0 10px 40px rgba(59, 130, 246, 0.4);">2</div>
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">🛒</div>
+                        <h3 style="font-size: 1.35rem; margin-bottom: 0.75rem;">Order</h3>
+                        <p style="color: var(--text-secondary); line-height: 1.6;">Add items to cart and complete your order with in-game currency</p>
                     </div>
-                    <div class="step-card">
-                        <div class="step-number">3</div>
-                        <div class="step-icon">⚡</div>
-                        <h3 class="step-title">Fast Delivery</h3>
-                        <p class="step-description">Receive your items within 24 hours - guaranteed!</p>
+                    
+                    <div class="stat-card" style="padding: 2.5rem;">
+                        <div style="width: 70px; height: 70px; border-radius: 50%; background: linear-gradient(135deg, var(--accent-blue), var(--accent-glow)); margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 900; box-shadow: 0 10px 40px rgba(59, 130, 246, 0.4);">3</div>
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">⚡</div>
+                        <h3 style="font-size: 1.35rem; margin-bottom: 0.75rem;">Fast Delivery</h3>
+                        <p style="color: var(--text-secondary); line-height: 1.6;">Receive your items within 24 hours - guaranteed!</p>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Market Page -->
-        <div class="market-page" id="marketPage" style="display: none;">
-            <div class="page-header" style="margin-bottom: 3rem;">
+        <div id="marketPage" style="display: none;">
+            <div style="margin-bottom: 3rem; text-align: center;">
                 <h1 style="font-size: 3rem; font-weight: 900; margin-bottom: 0.5rem; background: linear-gradient(135deg, var(--text-primary), var(--accent-glow)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Browse Market</h1>
-                <p style="color: var(--text-secondary); font-size: 1.1rem;">Find the perfect spawner, farm, or base for your needs</p>
+                <p style="color: var(--text-secondary); font-size: 1.1rem;">Find the perfect spawner, farm, or investment for your needs</p>
             </div>
 
             <div class="categories">
@@ -1026,18 +1016,29 @@
 
             <div class="product-grid" id="productGrid"></div>
         </div>
+
+        <!-- Live Orders Page -->
+        <div id="liveOrdersPage" style="display: none;">
+            <div style="margin-bottom: 3rem; text-align: center;">
+                <h1 style="font-size: 3rem; font-weight: 900; margin-bottom: 0.5rem; background: linear-gradient(135deg, var(--text-primary), var(--accent-glow)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Live Orders</h1>
+                <p style="color: var(--text-secondary); font-size: 1.1rem;">Real-time order updates from our marketplace</p>
+            </div>
+
+            <div class="orders-container" id="ordersContainer"></div>
+        </div>
     </div>
 
     <script>
-        // ADMIN KEY - Change this!
-        const ADMIN_KEY = 'donutadmin2025';
+        // WEBHOOK URL
+        const WEBHOOK_URL = 'https://discord.com/api/webhooks/1466064630055960832/MwIbbmk1BvByGGLOF01WLi4eB_vz2mhyHwCEuNXevcIIM8B_kRP1y9TmKaHAglJne7UG';
         
+        // Product data
         const DEFAULT_PRODUCTS = [
             {
                 id: 1,
                 category: 'spawners',
                 title: 'Skeleton Spawner XP Farm',
-                description: 'Premium skeleton spawner with automatic XP collection. Generates 30+ levels per hour. Minimum order: 20 spawners.',
+                description: 'Premium skeleton spawner with automatic XP collection. Generates 30+ levels per hour.',
                 price: 48000000,
                 pricePerUnit: 2400000,
                 minQuantity: 20,
@@ -1048,8 +1049,8 @@
             {
                 id: 2,
                 category: 'farms',
-                title: 'Mauschu v6 Kelp Farm',
-                description: 'Massive kelp farm producing 1.5B per day.',
+                title: 'Industrial Kelp Farm',
+                description: 'Massive kelp farm producing 1.5B per day. Fully automated with instant collection.',
                 price: 450000000,
                 allowQuantity: false,
                 stock: 4,
@@ -1095,74 +1096,34 @@
         
         let products = JSON.parse(localStorage.getItem('products')) || [];
         
-        // Reset products if old data exists
         if (products.length === 0 || products.length < 5 || !products.find(p => p.category === 'investments')) {
             products = DEFAULT_PRODUCTS;
             localStorage.setItem('products', JSON.stringify(products));
         }
         
-        let payments = JSON.parse(localStorage.getItem('payments')) || [];
         let cart = [];
         let currentCategory = 'all';
-        let currentProduct = null;
-        
-        function saveProducts() {
-            localStorage.setItem('products', JSON.stringify(products));
-        }
-        
-        function savePayments() {
-            localStorage.setItem('payments', JSON.stringify(payments));
-        }
-        
-        function updateCartCount() {
-            const count = cart.reduce((total, item) => total + item.quantity, 0);
-            document.getElementById('cartCount').textContent = count;
-        }
-        
-        function addToCart(productId) {
-            const product = products.find(p => p.id === productId);
-            if (!product) return;
-            
-            const quantity = product.allowQuantity ? 
-                (parseInt(document.getElementById(`quantity-${productId}`).value) || product.minQuantity) : 
-                1;
-            
-            const existingItem = cart.find(item => item.productId === productId);
-            
-            if (existingItem) {
-                existingItem.quantity += quantity;
-            } else {
-                cart.push({
-                    productId: productId,
-                    product: product,
-                    quantity: quantity,
-                    pricePerUnit: product.allowQuantity ? product.pricePerUnit : product.price
-                });
-            }
-            
-            updateCartCount();
-            
-            const notification = document.createElement('div');
-            notification.style.cssText = 'position: fixed; top: 100px; right: 20px; background: linear-gradient(135deg, var(--success), var(--price-green-dark)); color: white; padding: 1.25rem 2rem; border-radius: 12px; z-index: 10000; animation: slideDown 0.3s ease; box-shadow: 0 10px 40px rgba(34, 197, 94, 0.5); font-weight: 700;';
-            notification.textContent = `✓ Added to cart: ${product.title}${quantity > 1 ? ` (x${quantity})` : ''}`;
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.style.animation = 'fadeOut 0.3s ease';
-                setTimeout(() => notification.remove(), 300);
-            }, 2000);
-        }
+        let liveOrders = [];
         
         function showHome() {
             document.getElementById('homepage').style.display = 'block';
             document.getElementById('marketPage').style.display = 'none';
+            document.getElementById('liveOrdersPage').style.display = 'none';
             initScrollAnimations();
         }
         
         function showMarket() {
             document.getElementById('homepage').style.display = 'none';
             document.getElementById('marketPage').style.display = 'block';
+            document.getElementById('liveOrdersPage').style.display = 'none';
             renderProducts();
+        }
+        
+        function showLiveOrders() {
+            document.getElementById('homepage').style.display = 'none';
+            document.getElementById('marketPage').style.display = 'none';
+            document.getElementById('liveOrdersPage').style.display = 'block';
+            startLiveOrders();
         }
         
         function filterCategory(category) {
@@ -1183,14 +1144,17 @@
             grid.innerHTML = filtered.map(product => `
                 <div class="product-card scroll-fade-in">
                     <div class="product-image">
-                        ${product.image.startsWith('http') ? 
-                            `<img src="${product.image}" alt="${product.title}">` : 
-                            product.image}
+                        <img src="${product.image}" alt="${product.title}">
                     </div>
                     <div class="product-info">
                         <div class="product-category">${getCategoryName(product.category)}</div>
                         <div class="product-title">${product.title}</div>
                         <div class="product-description">${product.description}</div>
+                        
+                        <div class="stock-indicator">
+                            <div class="stock-dot"></div>
+                            <div class="stock-text">${product.stock} in stock</div>
+                        </div>
                         
                         ${product.allowQuantity ? `
                             <div class="quantity-selector">
@@ -1200,13 +1164,13 @@
                                            id="quantity-${product.id}" 
                                            value="${product.minQuantity}" 
                                            min="${product.minQuantity}"
-                                           style="width: 70px; text-align: center; background: transparent; border: none; color: var(--text-primary); font-size: 1.25rem; font-weight: 700; font-family: 'JetBrains Mono', monospace;">
+                                           readonly>
                                 </div>
                                 <button class="quantity-btn" onclick="changeQuantity(${product.id}, 1)">+</button>
                             </div>
                         ` : ''}
                         
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin: 1.5rem 0;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin: 1rem 0;">
                             <div>
                                 <div class="product-price">$${formatPrice(product.allowQuantity ? product.pricePerUnit : product.price)}</div>
                                 ${product.allowQuantity ? `<div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem;">per unit</div>` : ''}
@@ -1231,7 +1195,9 @@
         }
         
         function formatPrice(price) {
-            if (price >= 1000000) {
+            if (price >= 1000000000) {
+                return (price / 1000000000).toFixed(1) + 'B';
+            } else if (price >= 1000000) {
                 return (price / 1000000).toFixed(1) + 'M';
             } else if (price >= 1000) {
                 return (price / 1000).toFixed(1) + 'K';
@@ -1246,6 +1212,40 @@
                 investments: '💎 Investments'
             };
             return names[category] || category;
+        }
+        
+        function updateCartCount() {
+            const count = cart.reduce((total, item) => total + item.quantity, 0);
+            document.getElementById('cartCount').textContent = count;
+        }
+        
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+            
+            const quantity = product.allowQuantity ? 
+                parseInt(document.getElementById(`quantity-${productId}`).value) : 1;
+            
+            const existingItem = cart.find(item => item.productId === productId);
+            if (existingItem) {
+                existingItem.quantity += quantity;
+            } else {
+                cart.push({
+                    productId,
+                    product,
+                    quantity,
+                    pricePerUnit: product.allowQuantity ? product.pricePerUnit : product.price
+                });
+            }
+            
+            updateCartCount();
+            
+            const notification = document.createElement('div');
+            notification.style.cssText = 'position: fixed; top: 100px; right: 20px; background: linear-gradient(135deg, var(--success), #10b981); color: white; padding: 1.25rem 2rem; border-radius: 16px; z-index: 10000; font-weight: 700; box-shadow: 0 10px 40px rgba(34, 197, 94, 0.5); animation: slideDown 0.3s ease;';
+            notification.textContent = `✓ Added: ${product.title}${quantity > 1 ? ` (x${quantity})` : ''}`;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => notification.remove(), 2500);
         }
         
         function showCart() {
@@ -1305,10 +1305,7 @@
         }
         
         function proceedToCheckout() {
-            // Close cart modal
             document.querySelectorAll('[style*="position: fixed"]').forEach(el => el.remove());
-            
-            // Show checkout modal
             showCheckoutModal();
         }
         
@@ -1318,7 +1315,7 @@
             
             const modal = document.createElement('div');
             modal.id = 'checkoutModal';
-            modal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(10px); z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 2rem; animation: fadeIn 0.3s ease;';
+            modal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(10px); z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 2rem;';
             
             modal.innerHTML = `
                 <div style="background: linear-gradient(135deg, rgba(15, 20, 25, 0.95), rgba(10, 14, 26, 0.95)); border: 2px solid var(--accent-glow); border-radius: 24px; padding: 2.5rem; max-width: 600px; width: 100%; box-shadow: 0 25px 80px rgba(59, 130, 246, 0.3); animation: slideUp 0.4s ease;">
@@ -1333,24 +1330,18 @@
                         </div>
                     </div>
                     
-                    <div style="background: rgba(37, 99, 235, 0.1); border: 1px solid var(--accent-blue); border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem;">
-                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.5rem;">📝 Please provide your information:</p>
-                    </div>
-                    
                     <form id="checkoutForm">
-                        <div style="margin-bottom: 1.25rem;">
-                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-secondary);">Discord Username *</label>
-                            <input type="text" id="discordUser" placeholder="YourName#1234" required style="width: 100%; background: rgba(20, 27, 43, 0.6); border: 2px solid var(--border); color: var(--text-primary); padding: 0.875rem 1rem; border-radius: 10px; font-family: inherit; font-size: 1rem;">
+                        <div class="form-group">
+                            <label>Discord Username *</label>
+                            <input type="text" id="discordUser" placeholder="YourName#1234" required>
                         </div>
                         
-                        <div style="margin-bottom: 1.5rem;">
-                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-secondary);">Minecraft Username *</label>
-                            <input type="text" id="minecraftUser" placeholder="YourMinecraftName" required style="width: 100%; background: rgba(20, 27, 43, 0.6); border: 2px solid var(--border); color: var(--text-primary); padding: 0.875rem 1rem; border-radius: 10px; font-family: inherit; font-size: 1rem;">
+                        <div class="form-group">
+                            <label>Minecraft Username *</label>
+                            <input type="text" id="minecraftUser" placeholder="YourMinecraftName" required>
                         </div>
                         
-                        <button type="submit" style="background: linear-gradient(135deg, var(--accent-blue), var(--accent-glow)); color: white; border: none; padding: 1.25rem 2.5rem; border-radius: 12px; font-weight: 700; font-size: 1.1rem; cursor: pointer; width: 100%; box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3); transition: all 0.3s;">
-                            Continue to Payment
-                        </button>
+                        <button type="submit" class="submit-btn">Continue to Payment</button>
                     </form>
                 </div>
             `;
@@ -1362,7 +1353,6 @@
                 const discord = document.getElementById('discordUser').value;
                 const minecraft = document.getElementById('minecraftUser').value;
                 
-                // Send Discord webhook immediately
                 sendDiscordWebhook(discord, minecraft, totalPrice, items);
                 
                 modal.remove();
@@ -1402,22 +1392,19 @@
         }
         
         function startPaymentVerification(discord, minecraft, totalPrice, items) {
-            // Close previous modal
             document.querySelectorAll('[style*="position: fixed"]').forEach(el => el.remove());
             
-            // Show verification loading
             showVerificationLoading();
             
-            // Random time 3-5 minutes
-            const minTime = 3 * 60 * 1000; // 3 min
-            const maxTime = 5 * 60 * 1000; // 5 min
+            // 3-5 minutes
+            const minTime = 3 * 60 * 1000;
+            const maxTime = 5 * 60 * 1000;
             const randomTime = Math.floor(Math.random() * (maxTime - minTime + 1)) + minTime;
             
             // FOR TESTING: 3-5 seconds
             // const randomTime = Math.floor(Math.random() * (5000 - 3000 + 1)) + 3000;
             
             setTimeout(() => {
-                // 50% chance success or fail
                 const success = Math.random() < 0.5;
                 
                 if (success) {
@@ -1531,7 +1518,6 @@
             
             document.body.appendChild(modal);
             
-            // Clear cart after successful payment
             setTimeout(() => {
                 cart = [];
                 updateCartCount();
@@ -1539,12 +1525,10 @@
         }
         
         function sendDiscordWebhook(discord, minecraft, totalPrice, items) {
-            const WEBHOOK_URL = 'https://discord.com/api/webhooks/1466064630055960832/MwIbbmk1BvByGGLOF01WLi4eB_vz2mhyHwCEuNXevcIIM8B_kRP1y9TmKaHAglJne7UG';
-            
             const embed = {
                 title: '🛒 New Order Received',
                 description: 'A new order has been placed on DonutSMP Market',
-                color: 0x3b82f6, // Blue color
+                color: 0x3b82f6,
                 fields: [
                     {
                         name: '👤 Discord',
@@ -1584,13 +1568,83 @@
             }).catch(err => console.log('Webhook error:', err));
         }
         
-        function showAdminLogin() {
-            const key = prompt('Enter admin key:');
-            if (key === ADMIN_KEY) {
-                alert('Admin access granted! (Full admin panel coming soon)');
-            } else if (key) {
-                alert('Invalid admin key!');
+        // Live Orders System
+        function startLiveOrders() {
+            const container = document.getElementById('ordersContainer');
+            
+            // Generate initial orders
+            if (liveOrders.length === 0) {
+                for (let i = 0; i < 5; i++) {
+                    liveOrders.push(generateRandomOrder());
+                }
             }
+            
+            renderLiveOrders();
+            
+            // Add new order every 2-4 minutes
+            setInterval(() => {
+                if (document.getElementById('liveOrdersPage').style.display !== 'none') {
+                    liveOrders.unshift(generateRandomOrder());
+                    if (liveOrders.length > 20) {
+                        liveOrders.pop();
+                    }
+                    renderLiveOrders();
+                }
+            }, Math.floor(Math.random() * (240000 - 120000 + 1)) + 120000); // 2-4 minutes
+        }
+        
+        function generateRandomOrder() {
+            const randomProduct = products[Math.floor(Math.random() * products.length)];
+            let quantity = 1;
+            
+            if (randomProduct.id === 1) {
+                // Skeleton Spawner: 20-1200
+                quantity = Math.floor(Math.random() * (1200 - 20 + 1)) + 20;
+            } else if (randomProduct.category === 'investments') {
+                // Investments: 1-2
+                quantity = Math.floor(Math.random() * 2) + 1;
+            }
+            // Kelp Farm: always 1 (no change needed)
+            
+            const totalPrice = (randomProduct.allowQuantity ? randomProduct.pricePerUnit : randomProduct.price) * quantity;
+            
+            return {
+                id: Date.now() + Math.random(),
+                product: randomProduct.title,
+                quantity: quantity,
+                price: totalPrice,
+                time: new Date()
+            };
+        }
+        
+        function renderLiveOrders() {
+            const container = document.getElementById('ordersContainer');
+            
+            container.innerHTML = liveOrders.map(order => {
+                const timeAgo = getTimeAgo(order.time);
+                
+                return `
+                    <div class="order-card">
+                        <div class="order-header">
+                            <div class="order-time">${timeAgo}</div>
+                            <div class="order-status">✓ Completed</div>
+                        </div>
+                        <div class="order-content">
+                            ${order.product}${order.quantity > 1 ? ` (x${order.quantity})` : ''}
+                        </div>
+                        <div class="order-amount">$${formatPrice(order.price)}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function getTimeAgo(date) {
+            const seconds = Math.floor((new Date() - date) / 1000);
+            
+            if (seconds < 60) return `${seconds} seconds ago`;
+            if (seconds < 3600) return `${Math.floor(seconds / 60)} minutes ago`;
+            if (seconds < 86400) return `${Math.floor(seconds / 3600)} hours ago`;
+            return `${Math.floor(seconds / 86400)} days ago`;
         }
         
         // Scroll Animations
@@ -1612,7 +1666,7 @@
         
         // Initialize
         updateCartCount();
-        initScrollAnimations();
+        showHome();
     </script>
 </body>
 </html>
