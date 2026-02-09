@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DonutSMP - Quiz & Earn</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --grass-top: #7FC241;
+      --grass-side: #5E9025;
+      --dirt: #8B6C42;
+      --stone: #7A7A7A;
+      --diamond: #5DCDE3;
+      --gold: #FCEE4B;
+      --redstone: #D42020;
+      --emerald: #17DD62;
+      --bg-dark: #1a1a1a;
+      --text-light: #FFFFFF;
+      --text-shadow: #3F3F3F;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Press Start 2P', cursive;
+      background: var(--bg-dark);
+      color: var(--text-light);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Animated background */
+    .bg-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      opacity: 0.1;
+      background: 
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 16px,
+          var(--grass-top) 16px,
+          var(--grass-top) 17px
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 16px,
+          var(--grass-top) 16px,
+          var(--grass-top) 17px
+        );
+      animation: scroll-bg 20s linear infinite;
+    }
+
+    @keyframes scroll-bg {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(16px, 16px); }
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    /* Header */
+    header {
+      text-align: center;
+      margin-bottom: 60px;
+      animation: slide-down 1s ease-out;
+    }
+
+    @keyframes slide-down {
+      from {
+        transform: translateY(-50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .logo {
+      font-size: 48px;
+      text-shadow: 
+        4px 4px 0 var(--text-shadow),
+        8px 8px 0 rgba(0,0,0,0.3);
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, var(--diamond), var(--emerald), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: rainbow 5s ease-in-out infinite;
+    }
+
+    @keyframes rainbow {
+      0%, 100% { filter: hue-rotate(0deg); }
+      50% { filter: hue-rotate(30deg); }
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: var(--grass-top);
+      text-shadow: 2px 2px 0 var(--text-shadow);
+    }
+
+    /* Main content */
+    .main-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 60px;
+    }
+
+    @media (max-width: 768px) {
+      .main-content {
+        grid-template-columns: 1fr;
+      }
+      
+      .logo {
+        font-size: 32px;
+      }
+    }
+
+    .block {
+      background: linear-gradient(135deg, var(--grass-top) 0%, var(--grass-side) 100%);
+      border: 4px solid var(--grass-side);
+      padding: 30px;
+      box-shadow: 
+        8px 8px 0 rgba(0,0,0,0.3),
+        inset -4px -4px 0 rgba(0,0,0,0.2),
+        inset 4px 4px 0 rgba(255,255,255,0.2);
+      position: relative;
+      animation: float 3s ease-in-out infinite;
+      transform-style: preserve-3d;
+    }
+
+    .block:nth-child(1) {
+      animation-delay: 0s;
+    }
+
+    .block:nth-child(2) {
+      animation-delay: 0.5s;
+      background: linear-gradient(135deg, var(--diamond) 0%, #3ba8c9 100%);
+      border-color: #3ba8c9;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    .block::before {
+      content: '';
+      position: absolute;
+      top: -4px;
+      left: -4px;
+      right: -4px;
+      bottom: -4px;
+      background: inherit;
+      filter: blur(20px);
+      opacity: 0.3;
+      z-index: -1;
+    }
+
+    .block h2 {
+      font-size: 20px;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 0 rgba(0,0,0,0.5);
+    }
+
+    .block p {
+      font-size: 12px;
+      line-height: 1.8;
+      margin-bottom: 15px;
+      text-shadow: 1px 1px 0 rgba(0,0,0,0.3);
+    }
+
+    .block ul {
+      list-style: none;
+      margin-bottom: 20px;
+    }
+
+    .block li {
+      font-size: 11px;
+      margin-bottom: 10px;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .block li::before {
+      content: '▪';
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+      font-size: 14px;
+    }
+
+    /* Button */
+    .btn {
+      display: inline-block;
+      background: var(--emerald);
+      color: var(--text-light);
+      padding: 15px 30px;
+      border: 4px solid #12a84c;
+      text-decoration: none;
+      font-size: 14px;
+      text-shadow: 2px 2px 0 rgba(0,0,0,0.5);
+      box-shadow: 
+        4px 4px 0 rgba(0,0,0,0.3),
+        inset -2px -2px 0 rgba(0,0,0,0.2),
+        inset 2px 2px 0 rgba(255,255,255,0.3);
+      transition: all 0.1s;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .btn:hover {
+      transform: translate(2px, 2px);
+      box-shadow: 
+        2px 2px 0 rgba(0,0,0,0.3),
+        inset -2px -2px 0 rgba(0,0,0,0.2),
+        inset 2px 2px 0 rgba(255,255,255,0.3);
+    }
+
+    .btn:active {
+      transform: translate(4px, 4px);
+      box-shadow: 
+        0px 0px 0 rgba(0,0,0,0.3),
+        inset -2px -2px 0 rgba(0,0,0,0.3),
+        inset 2px 2px 0 rgba(255,255,255,0.2);
+    }
+
+    /* Feature cards */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      margin-top: 60px;
+    }
+
+    .feature-card {
+      background: var(--stone);
+      border: 3px solid #5a5a5a;
+      padding: 25px;
+      text-align: center;
+      box-shadow: 
+        6px 6px 0 rgba(0,0,0,0.4),
+        inset -3px -3px 0 rgba(0,0,0,0.3),
+        inset 3px 3px 0 rgba(255,255,255,0.1);
+      animation: pop-in 0.5s ease-out backwards;
+    }
+
+    .feature-card:nth-child(1) { animation-delay: 0.2s; }
+    .feature-card:nth-child(2) { animation-delay: 0.4s; }
+    .feature-card:nth-child(3) { animation-delay: 0.6s; }
+
+    @keyframes pop-in {
+      from {
+        transform: scale(0);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .feature-icon {
+      font-size: 40px;
+      margin-bottom: 15px;
+      display: block;
+      animation: bounce 2s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .feature-card h3 {
+      font-size: 14px;
+      margin-bottom: 10px;
+      color: var(--gold);
+    }
+
+    .feature-card p {
+      font-size: 10px;
+      line-height: 1.6;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      margin-top: 80px;
+      padding: 30px;
+      border-top: 4px solid var(--grass-side);
+      font-size: 10px;
+      opacity: 0.7;
+    }
+
+    /* Particles */
+    .particle {
+      position: fixed;
+      width: 8px;
+      height: 8px;
+      background: var(--diamond);
+      pointer-events: none;
+      opacity: 0;
+      box-shadow: 0 0 10px var(--diamond);
+      animation: particle-float 3s ease-in-out infinite;
+    }
+
+    @keyframes particle-float {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-animation"></div>
+  
+  <div class="container">
+    <header>
+      <h1 class="logo">DonutSMP</h1>
+      <p class="subtitle">QUIZ • EARN • WITHDRAW</p>
+    </header>
+
+    <div class="main-content">
+      <div class="block">
+        <h2>🎮 How It Works</h2>
+        <p>Deposit your in-game currency and test your Minecraft knowledge!</p>
+        <ul>
+          <li>Deposit using: /pay conexicn [amount]</li>
+          <li>Take daily quizzes to earn more</li>
+          <li>Withdraw your winnings anytime</li>
+          <li>Login with Discord to start</li>
+        </ul>
+        <a href="/auth/discord" class="btn">Login with Discord</a>
+      </div>
+
+      <div class="block">
+        <h2>💎 Quiz Levels</h2>
+        <p>Three difficulty levels, three chances to win big!</p>
+        <ul>
+          <li>SIMPLE: 500k → Win 650k</li>
+          <li>MEDIUM: 5M → Win 6.5M</li>
+          <li>HARD: 25M → Win 30M</li>
+        </ul>
+        <p style="margin-top: 15px;">All questions about Minecraft 1.21.11</p>
+      </div>
+    </div>
+
+    <div class="features">
+      <div class="feature-card">
+        <span class="feature-icon">🧠</span>
+        <h3>Daily Challenges</h3>
+        <p>Each quiz can be taken once per day. Come back tomorrow for more!</p>
+      </div>
+
+      <div class="feature-card">
+        <span class="feature-icon">⚡</span>
+        <h3>Instant Payouts</h3>
+        <p>Withdraw directly to your Minecraft account with Discord notifications</p>
+      </div>
+
+      <div class="feature-card">
+        <span class="feature-icon">🏆</span>
+        <h3>Profit Margin</h3>
+        <p>Get 130% back on perfect scores. Risk it for the biscuit!</p>
+      </div>
+    </div>
+
+    <footer>
+      <p>&copy; 2026 DonutSMP. All blocks reserved.</p>
+    </footer>
+  </div>
+
+  <script>
+    // Create floating particles
+    function createParticles() {
+      for (let i = 0; i < 15; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 3 + 's';
+        particle.style.animationDuration = (3 + Math.random() * 2) + 's';
+        document.body.appendChild(particle);
+      }
+    }
+
+    createParticles();
+
+    // Check for errors
+    const urlParams = new URLSearchParams(window.location.search);
+    const error = urlParams.get('error');
+    if (error === 'auth_failed') {
+      alert('Authentication failed. Please try again.');
+    }
+  </script>
+</body>
+</html>

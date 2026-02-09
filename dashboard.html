@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - DonutSMP</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --grass-top: #7FC241;
+      --grass-side: #5E9025;
+      --dirt: #8B6C42;
+      --stone: #7A7A7A;
+      --diamond: #5DCDE3;
+      --gold: #FCEE4B;
+      --redstone: #D42020;
+      --emerald: #17DD62;
+      --bg-dark: #1a1a1a;
+      --text-light: #FFFFFF;
+      --text-shadow: #3F3F3F;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Press Start 2P', cursive;
+      background: var(--bg-dark);
+      color: var(--text-light);
+      min-height: 100vh;
+      position: relative;
+    }
+
+    .bg-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      opacity: 0.05;
+      background: 
+        repeating-linear-gradient(
+          45deg,
+          transparent,
+          transparent 32px,
+          var(--diamond) 32px,
+          var(--diamond) 33px
+        );
+      animation: scroll-diag 15s linear infinite;
+    }
+
+    @keyframes scroll-diag {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(32px, 32px); }
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 30px 20px;
+    }
+
+    /* Navigation */
+    nav {
+      background: var(--stone);
+      border: 4px solid #5a5a5a;
+      padding: 20px 30px;
+      margin-bottom: 40px;
+      box-shadow: 6px 6px 0 rgba(0,0,0,0.4);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .nav-brand {
+      font-size: 20px;
+      background: linear-gradient(135deg, var(--diamond), var(--emerald));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .nav-btn {
+      background: var(--grass-top);
+      border: 3px solid var(--grass-side);
+      padding: 10px 20px;
+      font-size: 10px;
+      color: white;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 3px 3px 0 rgba(0,0,0,0.3);
+      transition: all 0.1s;
+      font-family: inherit;
+    }
+
+    .nav-btn:hover {
+      transform: translate(2px, 2px);
+      box-shadow: 1px 1px 0 rgba(0,0,0,0.3);
+    }
+
+    .nav-btn.danger {
+      background: var(--redstone);
+      border-color: #a01818;
+    }
+
+    /* User Info */
+    .user-info {
+      background: linear-gradient(135deg, var(--gold) 0%, #d4a50a 100%);
+      border: 4px solid #d4a50a;
+      padding: 30px;
+      margin-bottom: 40px;
+      box-shadow: 8px 8px 0 rgba(0,0,0,0.3);
+      animation: shine 3s ease-in-out infinite;
+    }
+
+    @keyframes shine {
+      0%, 100% { box-shadow: 8px 8px 0 rgba(0,0,0,0.3); }
+      50% { box-shadow: 8px 8px 20px rgba(252,238,75,0.4); }
+    }
+
+    .balance-display {
+      font-size: 32px;
+      margin-bottom: 15px;
+      text-shadow: 3px 3px 0 rgba(0,0,0,0.5);
+    }
+
+    .user-details {
+      font-size: 11px;
+      opacity: 0.9;
+    }
+
+    .minecraft-input {
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .minecraft-input input {
+      flex: 1;
+      min-width: 200px;
+      padding: 12px;
+      font-family: inherit;
+      font-size: 10px;
+      border: 3px solid #a08000;
+      background: rgba(0,0,0,0.2);
+      color: white;
+    }
+
+    .minecraft-input button {
+      background: var(--emerald);
+      border: 3px solid #12a84c;
+      padding: 12px 20px;
+      font-family: inherit;
+      font-size: 10px;
+      color: white;
+      cursor: pointer;
+      box-shadow: 3px 3px 0 rgba(0,0,0,0.3);
+    }
+
+    /* Quiz Cards */
+    .quiz-section {
+      margin-bottom: 40px;
+    }
+
+    .section-title {
+      font-size: 24px;
+      margin-bottom: 30px;
+      text-shadow: 3px 3px 0 var(--text-shadow);
+      color: var(--diamond);
+    }
+
+    .quiz-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+    }
+
+    .quiz-card {
+      background: var(--stone);
+      border: 4px solid #5a5a5a;
+      padding: 30px;
+      box-shadow: 6px 6px 0 rgba(0,0,0,0.4);
+      position: relative;
+      transition: transform 0.2s;
+    }
+
+    .quiz-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .quiz-card.simple {
+      border-color: var(--grass-top);
+      background: linear-gradient(135deg, var(--grass-side) 0%, #4a6b1c 100%);
+    }
+
+    .quiz-card.medium {
+      border-color: var(--diamond);
+      background: linear-gradient(135deg, #3ba8c9 0%, #2980a0 100%);
+    }
+
+    .quiz-card.hard {
+      border-color: var(--redstone);
+      background: linear-gradient(135deg, #a01818 0%, #7a1010 100%);
+    }
+
+    .quiz-card h3 {
+      font-size: 18px;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+
+    .quiz-info {
+      font-size: 11px;
+      margin-bottom: 15px;
+      line-height: 1.8;
+    }
+
+    .quiz-status {
+      font-size: 10px;
+      margin-top: 20px;
+      padding: 10px;
+      background: rgba(0,0,0,0.3);
+      border: 2px solid rgba(255,255,255,0.2);
+      text-align: center;
+    }
+
+    .quiz-btn {
+      width: 100%;
+      padding: 15px;
+      margin-top: 20px;
+      background: var(--emerald);
+      border: 3px solid #12a84c;
+      font-family: inherit;
+      font-size: 12px;
+      color: white;
+      cursor: pointer;
+      box-shadow: 4px 4px 0 rgba(0,0,0,0.3);
+      transition: all 0.1s;
+    }
+
+    .quiz-btn:hover {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+    }
+
+    .quiz-btn:disabled {
+      background: #555;
+      border-color: #333;
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+
+    /* Loading */
+    .loading {
+      text-align: center;
+      padding: 60px;
+      font-size: 14px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      border: 4px solid var(--grass-side);
+      border-top-color: var(--diamond);
+      border-radius: 0;
+      animation: spin 1s linear infinite;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .balance-display {
+        font-size: 20px;
+      }
+      
+      .section-title {
+        font-size: 18px;
+      }
+      
+      nav {
+        padding: 15px 20px;
+      }
+      
+      .nav-brand {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-animation"></div>
+  
+  <div class="container">
+    <nav>
+      <div class="nav-brand">DonutSMP</div>
+      <div class="nav-links">
+        <a href="/dashboard.html" class="nav-btn">Dashboard</a>
+        <a href="/withdraw.html" class="nav-btn">Withdraw</a>
+        <button onclick="logout()" class="nav-btn danger">Logout</button>
+      </div>
+    </nav>
+
+    <div id="loading" class="loading">
+      <div class="spinner"></div>
+      <p>Loading dashboard...</p>
+    </div>
+
+    <div id="content" style="display: none;">
+      <div class="user-info">
+        <div class="balance-display">💰 <span id="balance">0</span></div>
+        <div class="user-details">
+          <p>Discord: <span id="discord-username">-</span></p>
+          <p>Minecraft: <span id="minecraft-username">Not set</span></p>
+        </div>
+        <div class="minecraft-input" id="mc-input-section">
+          <input type="text" id="mc-username" placeholder="Enter Minecraft username">
+          <button onclick="updateMinecraftUsername()">Save Username</button>
+        </div>
+      </div>
+
+      <div class="quiz-section">
+        <h2 class="section-title">🎯 Daily Quizzes</h2>
+        <div class="quiz-grid">
+          <div class="quiz-card simple">
+            <h3>⭐ Simple</h3>
+            <div class="quiz-info">
+              <p>Cost: 500,000</p>
+              <p>Reward: 650,000</p>
+              <p>Profit: 150,000 (30%)</p>
+              <p>Questions: 5</p>
+            </div>
+            <div class="quiz-status" id="simple-status">Checking...</div>
+            <button class="quiz-btn" id="simple-btn" onclick="startQuiz('simple')" disabled>
+              Take Quiz
+            </button>
+          </div>
+
+          <div class="quiz-card medium">
+            <h3>💎 Medium</h3>
+            <div class="quiz-info">
+              <p>Cost: 5,000,000</p>
+              <p>Reward: 6,500,000</p>
+              <p>Profit: 1,500,000 (30%)</p>
+              <p>Questions: 7</p>
+            </div>
+            <div class="quiz-status" id="medium-status">Checking...</div>
+            <button class="quiz-btn" id="medium-btn" onclick="startQuiz('medium')" disabled>
+              Take Quiz
+            </button>
+          </div>
+
+          <div class="quiz-card hard">
+            <h3>🔥 Hard</h3>
+            <div class="quiz-info">
+              <p>Cost: 25,000,000</p>
+              <p>Reward: 30,000,000</p>
+              <p>Profit: 5,000,000 (20%)</p>
+              <p>Questions: 10</p>
+            </div>
+            <div class="quiz-status" id="hard-status">Checking...</div>
+            <button class="quiz-btn" id="hard-btn" onclick="startQuiz('hard')" disabled>
+              Take Quiz
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let userData = null;
+
+    async function loadDashboard() {
+      try {
+        const response = await fetch('/api/user');
+        if (!response.ok) {
+          window.location.href = '/';
+          return;
+        }
+        
+        userData = await response.json();
+        
+        document.getElementById('balance').textContent = userData.balance.toLocaleString();
+        document.getElementById('discord-username').textContent = userData.discord_username;
+        
+        if (userData.minecraft_username) {
+          document.getElementById('minecraft-username').textContent = userData.minecraft_username;
+          document.getElementById('mc-input-section').style.display = 'none';
+        } else {
+          document.getElementById('mc-username').value = '';
+        }
+
+        // Check quiz availability
+        const availabilityResponse = await fetch('/api/quiz/availability');
+        const availability = await availabilityResponse.json();
+
+        updateQuizButton('simple', availability.simple, 500000);
+        updateQuizButton('medium', availability.medium, 5000000);
+        updateQuizButton('hard', availability.hard, 25000000);
+
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('content').style.display = 'block';
+      } catch (error) {
+        console.error('Error loading dashboard:', error);
+        alert('Failed to load dashboard. Please try again.');
+      }
+    }
+
+    function updateQuizButton(difficulty, available, cost) {
+      const statusEl = document.getElementById(`${difficulty}-status`);
+      const btnEl = document.getElementById(`${difficulty}-btn`);
+
+      if (!available) {
+        statusEl.textContent = '✅ Completed today!';
+        statusEl.style.background = 'rgba(23,221,98,0.3)';
+        btnEl.disabled = true;
+      } else if (userData.balance < cost) {
+        statusEl.textContent = '❌ Insufficient balance';
+        statusEl.style.background = 'rgba(212,32,32,0.3)';
+        btnEl.disabled = true;
+      } else {
+        statusEl.textContent = '✨ Available';
+        statusEl.style.background = 'rgba(93,205,227,0.3)';
+        btnEl.disabled = false;
+      }
+    }
+
+    async function updateMinecraftUsername() {
+      const username = document.getElementById('mc-username').value.trim();
+      if (!username) {
+        alert('Please enter a Minecraft username');
+        return;
+      }
+
+      try {
+        const response = await fetch('/api/user/minecraft', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ minecraft_username: username })
+        });
+
+        if (response.ok) {
+          alert('Minecraft username saved!');
+          loadDashboard();
+        }
+      } catch (error) {
+        alert('Failed to save username. Please try again.');
+      }
+    }
+
+    function startQuiz(difficulty) {
+      window.location.href = `/quiz.html?difficulty=${difficulty}`;
+    }
+
+    function logout() {
+      window.location.href = '/auth/logout';
+    }
+
+    loadDashboard();
+  </script>
+</body>
+</html>
